@@ -7,7 +7,7 @@ package keyboard;
  */
 public class Alphabet {
 
-    public static final int CHAR_COUNT = 54;
+    public static final int CHAR_COUNT = 55;
 
     public static int charToInt(char c) {
         if(c == 0)
@@ -34,7 +34,7 @@ public class Alphabet {
             return (char) ('a' + (i - 3));
         if(i >= 29 && i <= 54)
             return (char) ('A' + (i - 29));
-        return '?';
+        return ' ';
     }
 
 }
