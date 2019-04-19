@@ -32,9 +32,9 @@ public class Alphabet {
         if(i == 2)
             return '.';
         if(i >= 3 && i <= 28)
-            return (char) ('a' + (i - 3));
+            return (char) ('A' + (i - 3));
         if(i >= 29 && i <= 54)
-            return (char) ('A' + (i - 29));
+            return (char) ('a' + (i - 29));
         return ' ';
     }
 
