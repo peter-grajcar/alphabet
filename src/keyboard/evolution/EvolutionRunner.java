@@ -1,7 +1,6 @@
 package keyboard.evolution;
 
 import java.io.*;
-import java.security.Key;
 import java.util.Scanner;
 
 /**
