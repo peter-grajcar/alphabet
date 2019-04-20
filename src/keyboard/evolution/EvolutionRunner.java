@@ -1,5 +1,8 @@
 package keyboard.evolution;
 
+import java.security.Key;
+import java.util.Scanner;
+
 /**
  * created: 2019-04-19
  *
@@ -8,36 +11,53 @@ package keyboard.evolution;
 public class EvolutionRunner {
 
     public static void run() {
-        KeyboardPopulation population = new KeyboardPopulation(95);
 
-        GeneticCode code = GeneParser.parse("29,59 28,37 33,39 24,52 42,36 48,35 33,46 55,51 61,18 11,54 25,54 32,53 24,20 50,19 40,27 62,50 44,21");
-        KeyboardIndividual individual = new KeyboardIndividual(code);
-        population.getPopulation().add(individual);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Count: ");
+        scanner.useDelimiter("\n");
+        int keyboardCount = scanner.nextInt();
 
-        code = GeneParser.parse("22,50 41,39 13,7 13,7 10,1 62,29 32,54 28,38 28,38 20,51 13,7 13,7 28,38 24,43 34,45 47,39 23,55 38,36 48,35 38,36 38,36 38,36 27,58 40,51");
-        individual = new KeyboardIndividual(code);
-        population.getPopulation().add(individual);
-
-        code = GeneParser.parse("54,11 28,37 24,28 46,40 33,53 40,0 27,39 60,29 35,39 2,8 48,35 17,63 12,52 29,44 51,22 11,8 24,52 46,32 24,52 47,30 22,16 13,55 24,20 36,42 32,39");
-        individual = new KeyboardIndividual(code);
-        population.getPopulation().add(individual);
-
-        for(int i = 0; i < 2000; i++) {
-            KeyboardIndividual a = population.getFittest(population.getPopulation());
-
-            if(i % 100 == 0) {
-                System.out.printf("\"%s\"\n", a.getKeyboard().getKeys());
-                System.out.println(a.getGeneticCode());
-            }
-            //a.getKeyboard().print();
-            System.out.printf("generation #%d: %s\n", i, a.getFitness());
-
-            population.evolve();
+        String[] keyboards = new String[keyboardCount];
+        for(int i = 0; i < keyboardCount; i++) {
+            keyboards[i] = scanner.next();
         }
 
-        KeyboardIndividual a = population.getFittest(population.getPopulation());
-        System.out.printf("\"%s\"\n", a.getKeyboard().getKeys());
-        System.out.println(a.getGeneticCode());
+        for(int j = 0; j < 10*keyboardCount; j++) {
+            KeyboardIndividual.initialKeyboard = keyboards[j % keyboardCount];
+            System.out.printf("=========================Keyboard #%3d==========================\n", (j % keyboardCount) + 1);
+            System.out.println(KeyboardIndividual.initialKeyboard);
+            System.out.println("================================================================");
+
+            KeyboardPopulation population = new KeyboardPopulation(100);
+
+            for (int i = 0; i < 50; i++) {
+                KeyboardIndividual a = population.getFittest(population.getPopulation());
+
+                System.out.printf("Keyboard #%d generation #%d:\n\tFitness:  %d\n\tKeyboard: \"%s\"\n\tGenes:    %s\n",
+                            (j % keyboardCount) + 1, i,
+                            a.getFitness(), a.getKeyboard().getKeys(),
+                            a.getGeneticCode()
+                );
+
+                population.evolve();
+            }
+
+            if(j % keyboardCount == 0){
+                System.out.println();
+                for(int i = 0; i < keyboardCount; i++) {
+                    System.out.printf("Keyboard #%d: %s\n", i+1, keyboards[i]);
+                }
+                System.out.println();
+            }
+
+            KeyboardIndividual best = population.getFittest(population.getPopulation());
+            System.out.printf("\n########################FITNESS: %5d##############################\n",best.getFitness());
+            System.out.printf("# %s #\n", best.getKeyboard().getKeys());
+            System.out.println("####################################################################\n");
+
+            keyboards[j % keyboardCount] = best.getKeyboard().getKeys();
+        }
+
     }
 
 }

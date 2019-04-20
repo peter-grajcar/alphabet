@@ -19,7 +19,7 @@ public class KeyboardPopulation {
         population = new ArrayList<>();
 
         for(int i = 0; i < size; i++) {
-            GeneticCode geneticCode = new GeneticCode(RandomUtil.getRandom().nextInt(59) + 5);
+            GeneticCode geneticCode = new GeneticCode(RandomUtil.getNormal(30) + 1);
             KeyboardIndividual a = new KeyboardIndividual(geneticCode);
             population.add(a);
         }
@@ -37,7 +37,7 @@ public class KeyboardPopulation {
             newPopulation.add(a);
         }
         for(int i = 3*population.size()/4; i < population.size(); i++) {
-            GeneticCode geneticCode = new GeneticCode(RandomUtil.getRandom().nextInt(59) + 5);
+            GeneticCode geneticCode = new GeneticCode(RandomUtil.getNormal(30) + 1);
             KeyboardIndividual a = new KeyboardIndividual(geneticCode);
             newPopulation.add(a);
         }

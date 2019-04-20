@@ -17,9 +17,11 @@ public class KeyboardIndividual {
 
     // Value from 0-255
     public static final int MUTATION_RATE = 16;
-    public static final String DEFAULT_KEYBOARD_KEYS = "ACDEFHIJKLMNOPQRSTUVWaabcdeeefghiiijlmnopqrssttuuvwy.           ";
     public static final int DEFAULT_KEYBOARD_SIZE = 64;
     public static final int DEFAULT_KEYBOARD_WIDTH = 8;
+
+    //public static String initialKeyboard = "JuDbahwHFQViqNPREC sut f .telaceMconr ivA geumdeTUtisp tWOLIjSey";
+    public static String initialKeyboard = "JuDbah sut f .telaceMwHFQViqNPRECconr ivA geumd TUtisp tWOLIjSey";
 
     private GeneticCode geneticCode;
     private Keyboard keyboard;
@@ -39,7 +41,7 @@ public class KeyboardIndividual {
     }
 
     public void createKeyboard() {
-        StringBuilder builder = new StringBuilder(DEFAULT_KEYBOARD_KEYS);
+        StringBuilder builder = new StringBuilder(initialKeyboard);
         for(GeneticCode.Transposition t : geneticCode.getTranspositions()){
             char c = builder.charAt(t.x);
             builder.setCharAt(t.x, builder.charAt(t.y));

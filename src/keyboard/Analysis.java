@@ -16,7 +16,13 @@ public class Analysis {
         }
 
         for(int i = 0; i < Alphabet.CHAR_COUNT; i++){
-            System.out.printf("%c: %d\n", Alphabet.intToChar(i), charCount[i]);
+            System.out.printf("%c: %d\t%.2f%%\n", Alphabet.intToChar(i), charCount[i], (float) charCount[i] / 23422 * 100);
+        }
+
+        System.out.println();
+        for(int i = 0; i < Alphabet.CHAR_COUNT; i++){
+            if(charCount[i] != 0)
+            System.out.printf("%c", Alphabet.intToChar(i));
         }
     }
 

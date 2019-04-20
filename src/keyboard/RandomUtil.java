@@ -17,4 +17,10 @@ public class RandomUtil {
         return random;
     }
 
+    public static int getNormal(int bound) {
+        double x = Math.abs(getRandom().nextGaussian());
+        int i = (int) Math.round(x * bound);
+        return Math.max(0, Math.min(bound, i));
+    }
+
 }
