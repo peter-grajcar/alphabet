@@ -17,7 +17,7 @@ public class KeyboardTest {
 
         Keyboard keyboard = new Keyboard(8, keys);
 
-        keyboard.print();
+        //keyboard.print();
         try {
             System.out.println(keyboard.minPath(Alphabet.TEXT));
         } catch (MissingKeyException e) {

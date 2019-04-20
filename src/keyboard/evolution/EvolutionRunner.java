@@ -1,5 +1,6 @@
 package keyboard.evolution;
 
+import java.io.*;
 import java.security.Key;
 import java.util.Scanner;
 
@@ -10,27 +11,49 @@ import java.util.Scanner;
  */
 public class EvolutionRunner {
 
+    private static int keyboardCount;
+    private static String[] keyboards;
+
     public static void run() {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Count: ");
-        scanner.useDelimiter("\n");
-        int keyboardCount = scanner.nextInt();
+        FileInputStream is = null;
+        try {
+            File file = new File("res/input");
+            is = new FileInputStream(file);
 
-        String[] keyboards = new String[keyboardCount];
-        for(int i = 0; i < keyboardCount; i++) {
-            keyboards[i] = scanner.next();
-            if(keyboards[i].length() != 64)
-                System.exit(1);
+            Scanner scanner = new Scanner(is);
+
+            scanner.useDelimiter("\n");
+            keyboardCount = scanner.nextInt();
+
+            keyboards = new String[keyboardCount];
+            for(int i = 0; i < keyboardCount; i++) {
+                keyboards[i] = scanner.next();
+                if(keyboards[i].length() != 64) {
+                    System.err.println("invalid length");
+                    System.exit(1);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found.");
+            System.exit(1);
+        } finally {
+            try {
+                is.close();
+            } catch (Exception e) {}
         }
 
-        for(int j = 0; j < 10*keyboardCount; j++) {
+
+
+        for(int j = 0; j < 50*keyboardCount; j++) {
             if(j % keyboardCount == 0){
                 System.out.println();
                 for(int i = 0; i < keyboardCount; i++) {
-                    System.out.printf("Keyboard #%d: %s\n", i+1, keyboards[i]);
+                    System.out.println(keyboards[i]);
                 }
                 System.out.println();
+
+                saveKeyboards();
             }
 
             KeyboardIndividual.initialKeyboard = keyboards[j % keyboardCount];
@@ -55,9 +78,6 @@ public class EvolutionRunner {
             }
 
             KeyboardIndividual best = population.getFittest(population.getPopulation());
-            System.out.printf("\n########################FITNESS: %5d##############################\n",best.getFitness());
-            System.out.printf("# %s #\n", best.getKeyboard().getKeys());
-            System.out.println("####################################################################\n");
 
             if(best.getFitness() < min)
             keyboards[j % keyboardCount] = best.getKeyboard().getKeys();
@@ -65,11 +85,29 @@ public class EvolutionRunner {
 
 
         System.out.println("END:");
-        for(int i = 0; i < keyboardCount; i++) {
-            System.out.printf("Keyboard #%d: %s\n", i+1, keyboards[i]);
-        }
-        System.out.println();
 
+    }
+
+    public static void saveKeyboards() {
+        FileWriter writer = null;
+        try {
+            File file = new File("res/output");
+            writer = new FileWriter(file);
+            writer.write(Integer.toString(keyboardCount));
+            writer.write("\n");
+            for(int i = 0; i < keyboardCount; i++) {
+                writer.write(keyboards[i]);
+                writer.write("\n");
+            }
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            try {
+                writer.flush();
+                writer.close();
+            } catch (Exception e) {}
+        }
     }
 
 }
