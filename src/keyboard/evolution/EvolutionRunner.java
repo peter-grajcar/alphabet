@@ -44,7 +44,7 @@ public class EvolutionRunner {
 
 
 
-        for(int j = 0; j < 50*keyboardCount; j++) {
+        for(int j = 0; j < 200*keyboardCount; j++) {
             if(j % keyboardCount == 0){
                 System.out.println();
                 for(int i = 0; i < keyboardCount; i++) {
@@ -64,7 +64,7 @@ public class EvolutionRunner {
             KeyboardPopulation population = new KeyboardPopulation(100);
             int min = population.getFittest(population.getPopulation()).getFitness();
 
-            for (int i = 0; i < 40; i++) {
+            for (int i = 0; i < 20; i++) {
                 KeyboardIndividual a = population.getFittest(population.getPopulation());
 
                 System.out.printf("Keyboard #%d generation #%d:\n\tFitness:  %d\n\tKeyboard: \"%s\"\n\tGenes:    %s\n",
